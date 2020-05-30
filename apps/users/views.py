@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate,login
 
 from django.contrib.auth.backends import ModelBackend
-from .models import UserProfile,EmailVerifyRecord
+from apps.users.models import UserProfile,EmailVerifyRecord
 from django.db.models import Q
 from django.views.generic.base import View
-from .forms import LoginForm,RegisterForm
+from .forms import LoginForm, RegisterForm, ForgetPwdForm
 from django.contrib.auth.hashers import make_password
 from utils.email_send import send_register_eamil
 
@@ -103,3 +103,10 @@ class RegisterView(View):
             return render(request,'login.html')
         else:
             return render(request,'register.html',{'register_form':register_form})
+
+
+class ForgetPwdView(View):
+    '''找回密码'''
+    def get(self,request):
+        forget_form = ForgetPwdForm()
+        return render(request,'forgetpwd.html',{'forget_form':forget_form})
